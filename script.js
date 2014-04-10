@@ -28,16 +28,37 @@ $(document).ready(function() {
 		}
 	}
 	
-	//shuffle the deck
+	deck = _.shuffle(deck); //shuffle the deck
 	
+
 	
 	var cards_player_1 = [];
 	var cards_player_2 = [];
+
 	//divide out the cards into the two arrays
-	
+
+	for (var i = 0; i < deck.length; i++) {
+		if([i] % 2 == 0){
+			cards_player_1.push(deck[i]);
+		}
+		else{
+			cards_player_2.push(deck[i]);
+		}
+		
+	}
+
 	
 	//create a function (algorithm) called "war" that takes two cards as parameters, compares them and returns a winner. A tie should return false.
-	function war() {
+	function war(card1, card2) {
+		if(card1.number > card2.number){
+			return "Player1 Wins";
+		}
+		else if(card1.number < card2.number){
+			return "Player2 Wins";
+		}
+		else {
+		return false;
+		}
 	}
 	
 	
@@ -45,7 +66,34 @@ $(document).ready(function() {
 		//compare the cards
 		//give the winner both cards (at end of deck)
 	function play() {
-		
+		var round = war(cards_player_1[0], cards_player_2[0]);
+		if (round == "Player1 Wins") {
+			cards_player_1.push(cards_player_1.shift(), cards_player_2.shift());
+			console.log("Player1 is Boss");
+		}
+		else if (round == "Player2 Wins") {
+			cards_player_2.push(cards_player_2.shift(), cards_player_1.shift());
+			console.log("Player2 Wins");
+		}
+		else {
+				console.log("War!")
+				var tiebreak = war(cards_player_1[3], cards_player_2[3]);
+				if (round=="Player1 Wins"){
+					for(var i = 0; i < 3; i++)
+						cards_player_1.push(cards_player_1.shift(), cards_player_2.shift());
+						alert("Player1 Wins")
+				}
+				else if ("Player2 Wins") {
+					for(var i = 0; i < 3; i++)
+						cards_player_2.push(cards_player_2.shift(), cards_player_1.shift());
+						alert("Player2 Wins")
+				}
+				else {
+					alert("Go Eff Yourself");
+					return false;
+				}
+			return false;
+		}
 		//this function (defined below) will continue to the next turn
 		advance();
 	}
